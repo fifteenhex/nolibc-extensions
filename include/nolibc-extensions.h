@@ -18,5 +18,6 @@
 
 #include "nolibc-extensions/socket.h"
 #include "nolibc-extensions/statfs.h"
+#include "nolibc-extensions/sendfile.h"
 
 #endif /* _NOLIBC_EXTENSIONS_H */
