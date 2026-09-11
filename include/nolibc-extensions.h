@@ -20,5 +20,6 @@
 #include "nolibc-extensions/statfs.h"
 #include "nolibc-extensions/sendfile.h"
 #include "nolibc-extensions/signal.h"
+#include "nolibc-extensions/unistd.h"
 
 #endif /* _NOLIBC_EXTENSIONS_H */
