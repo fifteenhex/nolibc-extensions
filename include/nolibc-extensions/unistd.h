@@ -50,4 +50,14 @@ static int rename(const char *old, const char *new)
 	return __sysret(_sys_rename(old, new));
 }
 
+static long _sys_sync(void)
+{
+	return __nolibc_syscall0(__NR_sync);
+}
+
+static void sync(void)
+{
+	_sys_sync();
+}
+
 #endif /* __NOLIBC_EXT_UNISTD_H */
