@@ -17,5 +17,6 @@
 #define _NOLIBC_EXTENSIONS_H
 
 #include "nolibc-extensions/socket.h"
+#include "nolibc-extensions/statfs.h"
 
 #endif /* _NOLIBC_EXTENSIONS_H */
