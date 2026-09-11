@@ -18,6 +18,45 @@
 #define NOLIBC_EXT_STR(_s) __NOLIBC_EXT_STR(_s)
 
 /*
+ * sigset_t helpers. The uapi types.h typedefs sigset_t to a plain
+ * unsigned long, so the whole set fits in one word on the arches this
+ * targets and these are just bit ops.
+ */
+static __attribute__((unused))
+int sigemptyset(sigset_t *set)
+{
+	*set = 0;
+	return 0;
+}
+
+static __attribute__((unused))
+int sigfillset(sigset_t *set)
+{
+	*set = ~0UL;
+	return 0;
+}
+
+static __attribute__((unused))
+int sigaddset(sigset_t *set, int signo)
+{
+	*set |= 1UL << (signo - 1);
+	return 0;
+}
+
+static __attribute__((unused))
+int sigdelset(sigset_t *set, int signo)
+{
+	*set &= ~(1UL << (signo - 1));
+	return 0;
+}
+
+static __attribute__((unused))
+int sigismember(const sigset_t *set, int signo)
+{
+	return (int)((*set >> (signo - 1)) & 1UL);
+}
+
+/*
  * The uapi struct sigaction is the shape libcs want, not the one
  * rt_sigaction() takes: handler, flags, restorer, mask. They match on
  * x86-64 but not on m68k.
