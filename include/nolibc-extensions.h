@@ -22,5 +22,6 @@
 #include "nolibc-extensions/signal.h"
 #include "nolibc-extensions/unistd.h"
 #include "nolibc-extensions/xattr.h"
+#include "nolibc-extensions/modules.h"
 
 #endif /* _NOLIBC_EXTENSIONS_H */
