@@ -32,4 +32,22 @@ static long setuid(uid_t uid)
         return __sysret(_sys_setuid(uid));
 }
 
+/* The generic syscall table has renameat and no plain rename */
+#ifdef __NR_rename
+static long _sys_rename(const char *old, const char *new)
+{
+	return __nolibc_syscall2(__NR_rename, old, new);
+}
+#else
+static long _sys_rename(const char *old, const char *new)
+{
+	return __nolibc_syscall4(__NR_renameat, AT_FDCWD, old, AT_FDCWD, new);
+}
+#endif
+
+static int rename(const char *old, const char *new)
+{
+	return __sysret(_sys_rename(old, new));
+}
+
 #endif /* __NOLIBC_EXT_UNISTD_H */
