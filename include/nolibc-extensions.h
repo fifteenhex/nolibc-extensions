@@ -20,6 +20,7 @@
 #include "nolibc-extensions/statfs.h"
 #include "nolibc-extensions/sendfile.h"
 #include "nolibc-extensions/signal.h"
+#include "nolibc-extensions/fcntl.h"
 #include "nolibc-extensions/unistd.h"
 #include "nolibc-extensions/xattr.h"
 #include "nolibc-extensions/modules.h"
