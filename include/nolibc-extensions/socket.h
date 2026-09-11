@@ -17,9 +17,24 @@
 #include <asm/socket.h>
 #include <linux/in.h>
 #define AF_INET     2
+#define AF_UNIX     1
 
 #define SOL_SOCKET   1
 #define SO_REUSEADDR 2
+
+/* Flags OR'd into socket()/accept4()'s type argument. On Linux these are
+ * numerically the open() flags of the same meaning. */
+#ifndef SOCK_NONBLOCK
+#define SOCK_NONBLOCK O_NONBLOCK
+#endif
+#ifndef SOCK_CLOEXEC
+#define SOCK_CLOEXEC O_CLOEXEC
+#endif
+
+/* send()/recv() flags */
+#ifndef MSG_NOSIGNAL
+#define MSG_NOSIGNAL 0x4000
+#endif
 
 /* Apparently mips has its own version of this?? */
 enum sock_type {
@@ -35,6 +50,12 @@ enum sock_type {
 struct sockaddr {
 	uint16_t sa_family;
 	char sa_data[14];
+};
+
+#define UNIX_PATH_MAX 108
+struct sockaddr_un {
+	uint16_t sun_family;
+	char sun_path[UNIX_PATH_MAX];
 };
 
 typedef uint32_t socklen_t;
@@ -96,6 +117,12 @@ ssize_t sendto(int socket, const void *message, size_t length,
            socklen_t dest_len)
 {
 	return __sysret(sys_sendto(socket, message, length, flags, dest_addr, dest_len));
+}
+
+static __attribute__((unused))
+ssize_t send(int sockfd, const void *buf, size_t len, int flags)
+{
+	return sendto(sockfd, buf, len, flags, NULL, 0);
 }
 
 static __attribute__((unused))
